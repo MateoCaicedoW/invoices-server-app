@@ -51,6 +51,10 @@ const login = async (req, res) => {
 }
 
 const signup = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({message: "Content can not be empty"})
+    }
+
     let value = req.body.email;
     const user = await User.findOne({where: {email: value}}).then(user => user);
     if (user) {
@@ -99,14 +103,10 @@ const verifyToken = async (req, res, next) =>{
     }
 }
 
-const logout = async (req, res) => {
-    res.clearCookie("token");
-    return res.status(200).json({message: "Logged out"})
-}
+
 
 module.exports = {
     login,
     signup,
-    logout,
     verifyToken
 }

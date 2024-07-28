@@ -1,5 +1,6 @@
 const sequelize = require('../database/db');
 const { DataTypes } = require('sequelize');
+const { CompanyUsers } = require('./companies');
 
 const User = sequelize.define('user', {
     id : {
@@ -23,5 +24,8 @@ const User = sequelize.define('user', {
         allowNull: false
     }
 })
+//This are the associations
+User.hasMany(CompanyUsers, {foreignKey: 'user_id'})
+CompanyUsers.belongsTo(User, {foreignKey: 'user_id'})
 
 module.exports = User;
